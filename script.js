@@ -1,7 +1,3 @@
-var button = document.getElementById("button-calc");
-
-button.onclick = calc_cps;
-
 register_events("input", calc_cps, ["domain-extent", "Ncells", "aspect-ratio", "radius"]);
 register_events("input", calc_domain_extent, ["xmin", "xmax"])
 
