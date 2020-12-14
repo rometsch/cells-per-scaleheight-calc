@@ -141,43 +141,25 @@ function register_events(event_name, func, id_list) {
 
 
 function set_labels_spherical() {
-    get_elem("label-x1N").innerHTML = "N r";
-    get_elem("label-x1min").innerHTML = "r min";
-    get_elem("label-x1max").innerHTML = "r max";
-    get_elem("label-x1extent").innerHTML = "r extent";
-    get_elem("label-x1cps").innerHTML = "cps r";
+    get_elem("table-row-x1").innerHTML = "r";
+    get_elem("table-cps-x1").innerHTML = "r";
 
-    get_elem("label-x2N").innerHTML = "N phi";
-    get_elem("label-x2min").innerHTML = "phi min";
-    get_elem("label-x2max").innerHTML = "phi max";
-    get_elem("label-x2extent").innerHTML = "phi extent";
-    get_elem("label-x2cps").innerHTML = "cps phi";
+    get_elem("table-row-x2").innerHTML = "phi";
+    get_elem("table-cps-x2").innerHTML = "phi";
 
-    get_elem("label-x3N").innerHTML = "N theta";
-    get_elem("label-x3min").innerHTML = "theta min";
-    get_elem("label-x3max").innerHTML = "theta max";
-    get_elem("label-x3extent").innerHTML = "theta extent";
-    get_elem("label-x3cps").innerHTML = "cps theta";
+    get_elem("table-row-x3").innerHTML = "theta";
+    get_elem("table-cps-x3").innerHTML = "theta";
 }
 
 function set_labels_cylindrical() {
-    get_elem("label-x1N").innerHTML = "N r";
-    get_elem("label-x1min").innerHTML = "r min";
-    get_elem("label-x1max").innerHTML = "r max";
-    get_elem("label-x1extent").innerHTML = "r extent";
-    get_elem("label-x1cps").innerHTML = "cps r";
+    get_elem("table-row-x1").innerHTML = "r";
+    get_elem("table-cps-x1").innerHTML = "r";
 
-    get_elem("label-x2N").innerHTML = "N phi";
-    get_elem("label-x2min").innerHTML = "phi min";
-    get_elem("label-x2max").innerHTML = "phi max";
-    get_elem("label-x2extent").innerHTML = "phi extent";
-    get_elem("label-x2cps").innerHTML = "cps phi";
+    get_elem("table-row-x2").innerHTML = "phi";
+    get_elem("table-cps-x2").innerHTML = "phi";
 
-    get_elem("label-x3N").innerHTML = "N z";
-    get_elem("label-x3min").innerHTML = "z min";
-    get_elem("label-x3max").innerHTML = "z max";
-    get_elem("label-x3extent").innerHTML = "z extent";
-    get_elem("label-x3cps").innerHTML = "cps z";
+    get_elem("table-row-x3").innerHTML = "z";
+    get_elem("table-cps-x3").innerHTML = "z";
 }
 
 

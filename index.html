@@ -49,53 +49,92 @@
     <p id="description-grid">Spherical grid with log spacing</p>
     <p>All values refer to the midplane.</p>
     <br>
-    <label for="x1N" id="label-x1N">N r</label>
-    <input type="number" id="x1N" name="x1N">
-    <label for="x1min" id="label-x1min">r min</label>
-    <input type="number" id="x1min" name="x1min">
-    <label for="x1max" id="label-x1max">r max</label>
-    <input type="number" id="x1max" name="x1max">
-    <label for="x1extent" id="label-x1extent">r extent</label>
-    <input type="number" id="x1extent" name="x1extent">
+
+    <table>
+        <tr>
+            <th></th>
+            <th id="table-header-N">Ncells</th>
+            <th id="table-header-min">min</th>
+            <th id="table-header-max">max</th>
+            <th id="table-header-extent">extent</th>
+        </tr>
+        <tr>
+            <td id="table-row-x1">r</td>
+            <td>
+                <input type="number" id="x1N" name="x1N">
+            </td>
+            <td>
+                <input type="number" id="x1min" name="x1min">
+            </td>
+            <td>
+                <input type="number" id="x1max" name="x1max">
+            </td>
+            <td>
+                <input type="number" id="x1extent" name="x1N">
+            </td>
+        </tr>
+        <tr>
+            <td id="table-row-x2">phi</td>
+            <td>
+                <input type="number" id="x2N" name="x2N">
+            </td>
+            <td>
+                <input type="number" id="x2min" name="x2min">
+            </td>
+            <td>
+                <input type="number" id="x2max" name="x2max">
+            </td>
+            <td>
+                <input type="number" id="x2extent" name="x2N">
+            </td>
+        </tr>
+        <tr>
+            <td id="table-row-x3">theta</td>
+            <td>
+                <input type="number" id="x3N" name="x3N">
+            </td>
+            <td>
+                <input type="number" id="x3min" name="x3min">
+            </td>
+            <td>
+                <input type="number" id="x3max" name="x3max">
+            </td>
+            <td>
+                <input type="number" id="x3extent" name="x3N">
+            </td>
+        </tr>
+    </table>
     <br>
-    <label for="x2N" id="label-x2N">N phi</label>
-    <input type="number" id="x2N" name="x2N">
-    <label for="x2min" id="label-x2min">phi min</label>
-    <input type="number" id="x2min" name="x2min">
-    <label for="x2max" id="label-x2max">phi max</label>
-    <input type="number" id="x2max" name="x2max">
-    <label for="x2extent" id="label-x2extent">phi extent</label>
-    <input type="number" id="x2extent" name="x2extent">
+    <table>
+        <tr>
+            <td>Apect ratio</td>
+            <td><input type="ratio" id="aspect-ratio" name="aspect-ratio"></td>
+        </tr>
+        <tr>
+            <td>Flaring index</td>
+            <td><input type="ratio" id="flaring-index" name="flaring-index"></td>
+        </tr>
+        <tr>
+            <td>Radius</td>
+            <td>    <input type="number" id="radius" name="radius"></td>
+        </tr>
+    </table>
     <br>
-    <label for="x3N" id="label-x3N">N theta</label>
-    <input type="number" id="x3N" name="x3N">
-    <label for="x3min" id="label-x3min">theta min</label>
-    <input type="number" id="x3min" name="x3min">
-    <label for="x3max" id="label-x3max">theta max</label>
-    <input type="number" id="x3max" name="x3max">
-    <label for="x3extent" id="label-x3extent">theta extent</label>
-    <input type="number" id="x3extent" name="x3extent">
-    <br>
-    <br>
-    <label for="aspect-ratio" id="label-aspect-ratio">Aspect ratio: </label>
-    <input type="ratio" id="aspect-ratio" name="aspect-ratio">
-    <label for="flaring-index" id="label-flaring-index">Flaring index: </label>
-    <input type="ratio" id="flaring-index" name="flaring-index">
-    <br>
-    <label for="radius" id="label-radius">Radius: </label>
-    <input type="number" id="radius" name="radius">
-    <br>
-    <br>
-    <label for="cps" id="label-cps">Cells per scale height: </label>
-    <br>
-    <label for="x1cps" id="label-x1cps">cps r</label>
-    <input type="ratio" id="x1cps" name="x1cps">
-    <br>
-    <label for="x2cps" id="label-x2cps">cps phi</label>
-    <input type="ratio" id="x2cps" name="x2cps">
-    <br>
-    <label for="x3cps" id="label-x3cps">cps theta</label>
-    <input type="ratio" id="x3cps" name="x3cps">
+    <p>Cells per scale height: </p>
+    <table>
+        <tr>
+            <td id="table-cps-x1">r</td>
+            <td><input type="ratio" id="x1cps" name="x1cps"></td>
+        </tr>
+        <tr>
+            <td id="table-cps-x2">phi</td>
+            <td><input type="ratio" id="x2cps" name="x2cps"></td>
+        </tr>
+        <tr>
+            <td id="table-cps-x3">theta</td>
+            <td><input type="ratio" id="x3cps" name="x3cps"></td>
+        </tr>
+    </table>
 
     <script src="script.js"></script>
 
