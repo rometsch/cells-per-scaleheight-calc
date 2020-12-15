@@ -19,7 +19,7 @@ function update_selection() {
     if (grid_type == "spherical") {
         set_labels_spherical();
     }
-    else if (grid_type == "cartesian") {
+    else if (grid_type == "cylindrical") {
         set_labels_cylindrical();
     }
     calc_cps_all();
