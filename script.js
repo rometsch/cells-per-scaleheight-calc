@@ -245,28 +245,17 @@ function apply_parameter_values() {
 
 function generate_share_link() {
     var N_params = parameter_accessible.length;
-    var url = window.location.href;
-    var param_str = ""
-    for (i=0; i<N_params; i++) {
+    var param_str = "?grid-type=" + grid_type;
+    param_str += "&spacing-type=" + spacing_type;
+    for (i = 0; i < N_params; i++) {
         var id = parameter_accessible[i];
         var val = get_number_from_input(id);
         if (val) {
-            var pair = id + "=" + val;
-            if (!param_str.includes(pair)) {
-                param_str += "&" + pair;
-            }
+            param_str += "&" + id + "=" + val;
         }
     }
-    if (!url.includes("grid-type="+grid_type)) {
-        param_str += "&grid-type=" + grid_type;
-    }
-    if (!url.includes("spacing-type="+spacing_type)) {
-        param_str += "&spacing-type=" + spacing_type;
-    }
-    if (!url.includes("/?")) {
-        param_str[0] = "?";
-    }
-    var link = window.location.href + param_str;
+    var url = window.location.href.split('?')[0];
+    var link = url + param_str;
     return link;
 }
 
