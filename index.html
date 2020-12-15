@@ -17,6 +17,7 @@
             font-size: 16px;
             margin: 4px 2px;
             cursor: pointer;
+            transition-duration: 0.4s;
         }
 
         .button1 {
@@ -24,9 +25,18 @@
             background-color: #4CAF50;
         }
 
+        .button1.hidden {
+            /* Green */
+            background-color: #4CAF5083;
+        }
+
         .button2 {
             /* Blue */
             background-color: #008CBA;
+        }
+        .button2.hidden {
+            /* Blue */
+            background-color: #008bba83;
         }
 
         .button3 {
@@ -72,13 +82,12 @@
 
     <h1>Cells per Scale Height Calculator</h1>
 
-    <button class="button button1" id="button-log-spacing">Log grid</button>
-    <button class="button button2" id="button-uniform-spacing">Uniform grid</button>
+    <button class="button button1" id="button-log-spacing">Logarithmic spacing</button>
+    <button class="button button2 hidden" id="button-uniform-spacing">Uniform spacing</button>
     <br>
-    <button class="button button1" id="button-spherical-grid">Spherical</button>
-    <button class="button button2" id="button-cylindrical-grid">Cylindrical</button>
+    <button class="button button1" id="button-spherical-grid">Spherical grid</button>
+    <button class="button button2 hidden" id="button-cylindrical-grid">Cylindrical grid</button>
     <br>
-    <p id="description-grid">Spherical grid with log spacing</p>
     <p>All values refer to the midplane.</p>
     <br>
 

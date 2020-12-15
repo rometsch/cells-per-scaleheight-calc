@@ -8,12 +8,42 @@ register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius
 )
 
 var grid_type = "spherical";
-register_events("click", function (e) { grid_type = "spherical"; set_labels_spherical(); set_grid_description(); calc_cps_all(); }, ["button-spherical-grid"]);
-register_events("click", function (e) { grid_type = "cylindrical"; set_labels_cylindrical(); set_grid_description(); calc_cps_all(); }, ["button-cylindrical-grid"]);
+register_events("click", function (e) { grid_type = "spherical"; update_selection(); }, ["button-spherical-grid"]);
+register_events("click", function (e) { grid_type = "cylindrical"; update_selection(); }, ["button-cylindrical-grid"]);
 
 var spacing_type = "log"
-register_events("click", function (e) { spacing_type = "log"; set_grid_description(); calc_cps_all(); }, ["button-log-spacing"]);
-register_events("click", function (e) { spacing_type = "uniform"; set_grid_description(); calc_cps_all(); }, ["button-uniform-spacing"]);
+register_events("click", function (e) { spacing_type = "log"; update_selection(); }, ["button-log-spacing"]);
+register_events("click", function (e) { spacing_type = "uniform"; update_selection(); }, ["button-uniform-spacing"]);
+
+function update_selection() {
+    if (grid_type == "spherical") {
+        set_labels_spherical();
+    }
+    else if (grid_type == "cartesian") {
+        set_labels_cylindrical();
+    }
+    calc_cps_all();
+    hide_inactive_buttons();
+}
+
+function hide_inactive_buttons() {
+    if (grid_type == "spherical") {
+        get_elem("button-spherical-grid").classList.remove("hidden");
+        get_elem("button-cylindrical-grid").classList.add("hidden");
+    }
+    else if (grid_type == "cylindrical") {
+        get_elem("button-spherical-grid").classList.add("hidden");
+        get_elem("button-cylindrical-grid").classList.remove("hidden");
+    }
+    if (spacing_type == "log") {
+        get_elem("button-log-spacing").classList.remove("hidden");
+        get_elem("button-uniform-spacing").classList.add("hidden");
+    }
+    else if (spacing_type == "uniform") {
+        get_elem("button-log-spacing").classList.add("hidden");
+        get_elem("button-uniform-spacing").classList.remove("hidden");
+    }
+}
 
 
 function calc_cps_all() {
@@ -160,12 +190,6 @@ function set_labels_cylindrical() {
 
     get_elem("table-row-x3").innerHTML = "z";
     get_elem("table-cps-x3").innerHTML = "z";
-}
-
-
-function set_grid_description() {
-    get_elem("description-grid").innerHTML =
-        grid_type + " grid with " + spacing_type + " spacing";
 }
 
 function get_elem(id) {
