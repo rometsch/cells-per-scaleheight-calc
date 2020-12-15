@@ -90,8 +90,6 @@
     <button class="button button2 hidden" id="button-cylindrical-grid">Cylindrical grid</button>
     <br>
     <p>All values refer to the midplane.</p>
-    <br>
-
     <table>
         <tr>
             <th></th>
@@ -153,16 +151,16 @@
             <th>Value</th>
         </tr>
         <tr>
-            <td>Apect ratio</td>
-            <td><input type="ratio" id="aspect-ratio" name="aspect-ratio"></td>
+            <td>Aspect ratio</td>
+            <td><input type="ratio" id="aspect-ratio" name="aspect-ratio" value=0.05></td>
         </tr>
         <tr>
             <td>Flaring index</td>
-            <td><input type="ratio" id="flaring-index" name="flaring-index"></td>
+            <td><input type="ratio" id="flaring-index" name="flaring-index" value=0></td>
         </tr>
         <tr>
             <td>Radius</td>
-            <td> <input type="number" id="radius" name="radius"></td>
+            <td> <input type="number" id="radius" name="radius" value=1></td>
         </tr>
     </table>
     <br>
@@ -184,6 +182,9 @@
             <td><input type="ratio" id="x3cps" name="x3cps"></td>
         </tr>
     </table>
+
+    <button class="button button3" id="button-share-link">Click to copy url with values!</button>
+
 
     <script src="script.js"></script>
 

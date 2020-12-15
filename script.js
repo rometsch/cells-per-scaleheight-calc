@@ -1,3 +1,6 @@
+var grid_type = "spherical";
+var spacing_type = "log"
+
 register_events("input", function (e) { calc_domain_extent(this.id.substring(0, 2)) },
     ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
 )
@@ -7,11 +10,21 @@ register_events("input", function (e) { calc_cps(this.id.substring(0, 2)) },
 register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
 )
 
-var grid_type = "spherical";
+var parameter_accessible = [
+    "x1N", "x1min", "x1max", "x1extent",
+    "x2N", "x2min", "x2max", "x2extent",
+    "x3N", "x3min", "x3max", "x3extent",
+    "aspect-ratio", "flaring-index", "radius"
+]
+
+apply_parameter_values();
+register_events("click", copy_share_link, ["button-share-link"])
+
+update_selection();
+
 register_events("click", function (e) { grid_type = "spherical"; update_selection(); }, ["button-spherical-grid"]);
 register_events("click", function (e) { grid_type = "cylindrical"; update_selection(); }, ["button-cylindrical-grid"]);
 
-var spacing_type = "log"
 register_events("click", function (e) { spacing_type = "log"; update_selection(); }, ["button-log-spacing"]);
 register_events("click", function (e) { spacing_type = "uniform"; update_selection(); }, ["button-uniform-spacing"]);
 
@@ -197,3 +210,78 @@ function set_labels_cylindrical() {
 function get_elem(id) {
     return document.getElementById(id);
 }
+
+
+function initialize_value(id) {
+    var val = getQueryVariable(id);
+    if (val != "") {
+        set_element_value(id, val);
+    }
+}
+
+function getQueryVariable(variable) {
+    var query = window.location.search.substring(1);
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+        }
+    }
+    return "";
+}
+
+function apply_parameter_values() {
+    parameter_accessible.forEach(initialize_value);
+    var val = getQueryVariable("spacing-type");
+    if (val && val != "") {
+        spacing_type = val;
+    }
+    val = getQueryVariable("grid-type");
+    if (val && val != "") {
+        grid_type = val;
+    }
+}
+
+function generate_share_link() {
+    var N_params = parameter_accessible.length;
+    var url = window.location.href;
+    var param_str = ""
+    for (i=0; i<N_params; i++) {
+        var id = parameter_accessible[i];
+        var val = get_number_from_input(id);
+        if (val) {
+            var pair = id + "=" + val;
+            if (!param_str.includes(pair)) {
+                param_str += "&" + pair;
+            }
+        }
+    }
+    if (!url.includes("grid-type="+grid_type)) {
+        param_str += "&grid-type=" + grid_type;
+    }
+    if (!url.includes("spacing-type="+spacing_type)) {
+        param_str += "&spacing-type=" + spacing_type;
+    }
+    if (!url.includes("/?")) {
+        param_str[0] = "?";
+    }
+    var link = window.location.href + param_str;
+    return link;
+}
+
+function copy_share_link() {
+    var link = generate_share_link();
+    copyToClip(link);
+}
+
+function copyToClip(str) {
+    function listener(e) {
+        e.clipboardData.setData("text/html", str);
+        e.clipboardData.setData("text/plain", str);
+        e.preventDefault();
+    }
+    document.addEventListener("copy", listener);
+    document.execCommand("copy");
+    document.removeEventListener("copy", listener);
+};
