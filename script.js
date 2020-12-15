@@ -56,12 +56,14 @@ function calc_cps(axis) {
     var domain_extent = get_number_from_input(axis + "extent");
     var number_of_cells = get_number_from_input(axis + "N");
     var aspect_ratio = get_number_from_input("aspect-ratio");
+    var flaring_index = parseFloat(get_number_from_input("flaring-index"));
+    if (!flaring_index) { flaring_index = 0.0; }
     var radius = get_number_from_input("radius");
     if (!domain_extent || !number_of_cells || !aspect_ratio || !radius) {
         set_element_value(axis + "cps", null);
         return;
     }
-    var H = aspect_ratio * radius;
+    var H = aspect_ratio * Math.pow(radius, 1.0 + flaring_index);
     var dx = calc_dx(radius, axis);
     var cps = H / dx;
     set_element_value(axis + "cps", cps);
