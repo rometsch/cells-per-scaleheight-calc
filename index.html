@@ -86,9 +86,18 @@
             /* max-width: 20%; */
         }
 
+        .vega-embed {
+            width: 100%;
+            /* height: 100%; */
+        }
+
         .flex-container {
             display: flex;
             flex-direction: row;
+        }
+
+        .padded {
+            padding-top: 10px;
         }
 
         .flex-container.vertical {
@@ -96,8 +105,11 @@
         }
 
         .flexbox {
-            padding-top: 10px;
             flex: auto;
+        }
+
+        .col-half {
+            width: 50%;
         }
 
         .container {
@@ -223,11 +235,11 @@
 
         </div>
 
-        <div class="flex-container">
+        <div class="flex-container padded">
 
-            <div class="flexbox">
+            <div class="flex-container vertical flexbox col-half">
 
-                <div>
+                <div class="flexbox">
                     <table>
                         <tr>
                             <th>Parameters</th>
@@ -247,7 +259,7 @@
                         </tr>
                     </table>
                 </div>
-                <div>
+                <div class="padded flexbox">
                     <table>
                         <tr>
                             <th>Direction</th>

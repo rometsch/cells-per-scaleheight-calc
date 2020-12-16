@@ -203,7 +203,7 @@ function calc_number_of_cells_delayed(axis) {
     if (delayed_update_calc_number) {
         clearTimeout(delayed_update_calc_number);
     }
-    delayed_update_calc_number = setTimeout(function () {calc_number_of_cells(axis);}, 500);
+    delayed_update_calc_number = setTimeout(function () { calc_number_of_cells(axis); }, 500);
 }
 
 function calc_number_of_cells(axis) {
@@ -390,7 +390,7 @@ function update_plot(axis) {
     if (delay_update_plot) {
         clearTimeout(delay_update_plot);
     }
-    delay_update_plot = setTimeout(function () {update_plot_run();}, 10);
+    delay_update_plot = setTimeout(function () { update_plot_run(); }, 10);
 }
 
 function update_plot_run() {
@@ -439,9 +439,10 @@ function update_plot_run() {
             color: {
                 field: "axis", "type": "nominal"
             }
-        }
+        },
+        width: "container",
+        height: "container"
     };
-
     // Embed the visualization in the container with id `vis`
-    vegaEmbed('#vis', vlSpec);
+    vegaEmbed('#vis', vlSpec)
 }
