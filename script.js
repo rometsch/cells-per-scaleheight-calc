@@ -1,14 +1,6 @@
 var grid_type = "spherical";
 var spacing_type = "log"
 
-register_events("input", function (e) { calc_domain_extent(this.id.substring(0, 2)) },
-    ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
-)
-register_events("input", function (e) { calc_cps(this.id.substring(0, 2)) },
-    ["x1N", "x1extent", "x1min", "x1max", "x2N", "x2extent", "x2min", "x2max", "x3N", "x3extent", "x3min", "x3max"]
-)
-register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
-)
 
 var parameter_accessible = [
     "x1N", "x1min", "x1max", "x1extent",
@@ -17,16 +9,31 @@ var parameter_accessible = [
     "aspect-ratio", "flaring-index", "radius"
 ]
 
-apply_parameter_values();
-register_events("click", copy_share_link, ["button-share-link"])
+init();
 
-update_selection();
 
-register_events("click", function (e) { grid_type = "spherical"; update_selection(); }, ["button-spherical-grid"]);
-register_events("click", function (e) { grid_type = "cylindrical"; update_selection(); }, ["button-cylindrical-grid"]);
+function init() {
+    register_events("input", function (e) { calc_domain_extent(this.id.substring(0, 2)) },
+        ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
+    )
+    register_events("input", function (e) { calc_cps(this.id.substring(0, 2)) },
+        ["x1N", "x1extent", "x1min", "x1max", "x2N", "x2extent", "x2min", "x2max", "x3N", "x3extent", "x3min", "x3max"]
+    )
+    register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
+    )
 
-register_events("click", function (e) { spacing_type = "log"; update_selection(); }, ["button-log-spacing"]);
-register_events("click", function (e) { spacing_type = "uniform"; update_selection(); }, ["button-uniform-spacing"]);
+    apply_parameter_values();
+    register_events("click", copy_share_link, ["button-share-link"])
+
+    update_selection();
+
+    register_events("click", function (e) { grid_type = "spherical"; update_selection(); }, ["button-spherical-grid"]);
+    register_events("click", function (e) { grid_type = "cylindrical"; update_selection(); }, ["button-cylindrical-grid"]);
+
+    register_events("click", function (e) { spacing_type = "log"; update_selection(); }, ["button-log-spacing"]);
+    register_events("click", function (e) { spacing_type = "uniform"; update_selection(); }, ["button-uniform-spacing"]);
+
+}
 
 function update_selection() {
     if (grid_type == "spherical") {
