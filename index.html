@@ -54,13 +54,14 @@
         table {
             font-family: Arial, Helvetica, sans-serif;
             border-collapse: collapse;
-            /* width: 100vw; */
+            width: 100%
         }
 
         td,
         th {
             border: 1px solid #ddd;
             padding: 8px;
+            min-width: 40px;
         }
 
         tr:nth-child(even) {
@@ -80,119 +81,203 @@
         }
 
         input {
-            width: 15vw;
+            width: 80%;
+            min-width: 40px;
+            /* max-width: 20%; */
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .flex-container.vertical {
+            flex-direction: column;
+        }
+
+        .flexbox {
+            padding-top: 10px;
+            flex: auto;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            margin: auto;
+        }
+
+        /* Extra small devices (phones, 600px and down) */
+        @media only screen and (min-width: 600px) {
+            .container {
+                width: 550px;
+            }
+        }
+
+        /* Medium devices (landscape tablets, 768px and up) */
+        @media only screen and (min-width: 768px) {
+            .container {
+                width: 740px;
+            }
+        }
+
+        /* Large devices (laptops/desktops, 992px and up) */
+        @media only screen and (min-width: 992px) {
+            .container {
+                width: 920px;
+            }
+        }
+
+        /* Extra large devices (large laptops and desktops, 1200px and up) */
+        @media only screen and (min-width: 1200px) {
+            .container {
+                width: 1200 px;
+            }
+        }
+
+        @media only screen and (min-width: 1400px) {
+            .container {
+                width: 1350 px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1><img src="disk_sketch.svg" style="width: 1em; height: 1em;" /> The Cells-Per-Scaleheight CALCulator</h1>
+    <div class="container">
 
-    <button class="button button1" id="button-log-spacing">Logarithmic spacing</button>
-    <button class="button button2 hidden" id="button-uniform-spacing">Uniform spacing</button>
-    <br>
-    <button class="button button1" id="button-spherical-grid">Spherical grid</button>
-    <button class="button button2 hidden" id="button-cylindrical-grid">Cylindrical grid</button>
-    <br>
-    <p>All values refer to the midplane.</p>
-    <table>
-        <tr>
-            <th></th>
-            <th id="table-header-N">Ncells</th>
-            <th id="table-header-min">min</th>
-            <th id="table-header-max">max</th>
-            <th id="table-header-extent">extent</th>
-        </tr>
-        <tr>
-            <td id="table-row-x1">r</td>
-            <td>
-                <input type="number" id="x1N" name="x1N">
-            </td>
-            <td>
-                <input type="number" id="x1min" name="x1min">
-            </td>
-            <td>
-                <input type="number" id="x1max" name="x1max">
-            </td>
-            <td>
-                <input type="number" id="x1extent" name="x1N">
-            </td>
-        </tr>
-        <tr>
-            <td id="table-row-x2">phi</td>
-            <td>
-                <input type="number" id="x2N" name="x2N">
-            </td>
-            <td>
-                <input type="number" id="x2min" name="x2min" value=0>
-            </td>
-            <td>
-                <input type="number" id="x2max" name="x2max" value=6.283185307179586>
-            </td>
-            <td>
-                <input type="number" id="x2extent" name="x2extent" value=6.283185307179586>
-            </td>
-        </tr>
-        <tr>
-            <td id="table-row-x3">theta</td>
-            <td>
-                <input type="number" id="x3N" name="x3N">
-            </td>
-            <td>
-                <input type="number" id="x3min" name="x3min">
-            </td>
-            <td>
-                <input type="number" id="x3max" name="x3max">
-            </td>
-            <td>
-                <input type="number" id="x3extent" name="x3N">
-            </td>
-        </tr>
-    </table>
-    <br>
-    <table>
-        <tr>
-            <th>Parameters</th>
-            <th>Value</th>
-        </tr>
-        <tr>
-            <td>Aspect ratio</td>
-            <td><input type="ratio" id="aspect-ratio" name="aspect-ratio" value=0.05></td>
-        </tr>
-        <tr>
-            <td>Flaring index</td>
-            <td><input type="ratio" id="flaring-index" name="flaring-index" value=0></td>
-        </tr>
-        <tr>
-            <td>Radius</td>
-            <td> <input type="number" id="radius" name="radius" value=1></td>
-        </tr>
-    </table>
-    <br>
-    <table>
-        <tr>
-            <th>Direction</th>
-            <th>Cells per scaleheight</th>
-        </tr>
-        <tr>
-            <td id="table-cps-x1">r</td>
-            <td><input type="ratio" id="x1cps" name="x1cps"></td>
-        </tr>
-        <tr>
-            <td id="table-cps-x2">phi</td>
-            <td><input type="ratio" id="x2cps" name="x2cps"></td>
-        </tr>
-        <tr>
-            <td id="table-cps-x3">theta</td>
-            <td><input type="ratio" id="x3cps" name="x3cps"></td>
-        </tr>
-    </table>
 
-    <div id="vis"></div>
+        <div class="flex-container vertical">
 
-    <button class="button button3" id="button-share-link">Click to copy url with values!</button>
+            <h1><img src="disk_sketch.svg" style="width: 1em; height: 1em;" /> The Cells-Per-Scaleheight CALCulator</h1>
 
+            <div>
+                <button class="button button1" id="button-log-spacing">Logarithmic spacing</button>
+                <button class="button button2 hidden" id="button-uniform-spacing">Uniform spacing</button>
+            </div>
+            <div>
+                <button class="button button1" id="button-spherical-grid">Spherical grid</button>
+                <button class="button button2 hidden" id="button-cylindrical-grid">Cylindrical grid</button>
+            </div>
+            <div>
+                <p>All values refer to the midplane.</p>
+            </div>
+        </div>
+
+        <div class="flexbox">
+
+            <table>
+                <tr>
+                    <th></th>
+                    <th id="table-header-N">Ncells</th>
+                    <th id="table-header-min">min</th>
+                    <th id="table-header-max">max</th>
+                    <th id="table-header-extent">extent</th>
+                </tr>
+                <tr>
+                    <td id="table-row-x1">r</td>
+                    <td>
+                        <input type="number" id="x1N" name="x1N">
+                    </td>
+                    <td>
+                        <input type="number" id="x1min" name="x1min">
+                    </td>
+                    <td>
+                        <input type="number" id="x1max" name="x1max">
+                    </td>
+                    <td>
+                        <input type="number" id="x1extent" name="x1N">
+                    </td>
+                </tr>
+                <tr>
+                    <td id="table-row-x2">phi</td>
+                    <td>
+                        <input type="number" id="x2N" name="x2N">
+                    </td>
+                    <td>
+                        <input type="number" id="x2min" name="x2min" value=0>
+                    </td>
+                    <td>
+                        <input type="number" id="x2max" name="x2max" value=6.283185307179586>
+                    </td>
+                    <td>
+                        <input type="number" id="x2extent" name="x2extent" value=6.283185307179586>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="table-row-x3">theta</td>
+                    <td>
+                        <input type="number" id="x3N" name="x3N">
+                    </td>
+                    <td>
+                        <input type="number" id="x3min" name="x3min">
+                    </td>
+                    <td>
+                        <input type="number" id="x3max" name="x3max">
+                    </td>
+                    <td>
+                        <input type="number" id="x3extent" name="x3N">
+                    </td>
+                </tr>
+            </table>
+
+        </div>
+
+        <div class="flex-container">
+
+            <div class="flexbox">
+
+                <div>
+                    <table>
+                        <tr>
+                            <th>Parameters</th>
+                            <th>Value</th>
+                        </tr>
+                        <tr>
+                            <td>Aspect ratio</td>
+                            <td><input type="ratio" id="aspect-ratio" name="aspect-ratio" value=0.05></td>
+                        </tr>
+                        <tr>
+                            <td>Flaring index</td>
+                            <td><input type="ratio" id="flaring-index" name="flaring-index" value=0></td>
+                        </tr>
+                        <tr>
+                            <td>Radius</td>
+                            <td> <input type="number" id="radius" name="radius" value=1></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <table>
+                        <tr>
+                            <th>Direction</th>
+                            <th>Cells per scaleheight</th>
+                        </tr>
+                        <tr>
+                            <td id="table-cps-x1">r</td>
+                            <td><input type="ratio" id="x1cps" name="x1cps"></td>
+                        </tr>
+                        <tr>
+                            <td id="table-cps-x2">phi</td>
+                            <td><input type="ratio" id="x2cps" name="x2cps"></td>
+                        </tr>
+                        <tr>
+                            <td id="table-cps-x3">theta</td>
+                            <td><input type="ratio" id="x3cps" name="x3cps"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flexbox" id="vis"></div>
+
+        </div>
+
+        <div>
+            <button class="button button3" id="button-share-link">Click to copy url with values!</button>
+        </div>
+
+    </div>
 
     <script src="script.js"></script>
 
