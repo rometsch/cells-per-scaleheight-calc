@@ -26,6 +26,9 @@ function init() {
     )
     register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
     )
+    register_events("change", function (e) { calc_number_of_cells(this.id.substring(0, 2)) },
+        ["x1cps", "x2cps", "x3cps"]
+    )
 
     register_events("click", copy_share_link, ["button-share-link"])
 
@@ -180,11 +183,62 @@ function calc_dr(radius) {
 function calc_domain_extent(axis) {
     var xmin = get_number_from_input(axis + "min");
     var xmax = get_number_from_input(axis + "max");
-    if ((!xmin && xmin != 0) || (!xmax && xmax !=0 ) || xmin == xmax) {
+    if ((!xmin && xmin != 0) || (!xmax && xmax != 0) || xmin == xmax) {
         return;
     }
     var extent = Math.abs(xmax - xmin);
     set_element_value(axis + "extent", extent);
+}
+
+function calc_number_of_cells(axis) {
+    var radius = get_number_from_input("radius");
+    var aspect_ratio = get_number_from_input("aspect-ratio");
+    var flaring_index = get_number_from_input("flaring-index")
+    var xmin = get_number_from_input(axis + "min");
+    var xmax = get_number_from_input(axis + "max");
+    var cps = get_number_from_input(axis + "cps");
+    if (is_not_set(radius) || is_not_set(aspect_ratio) || is_not_set(flaring_index)
+        || is_not_set(xmin) || is_not_set(xmax) || is_not_set(cps)) {
+        return;
+    }
+    var N;
+    var H = aspect_ratio * Math.pow(radius, 1.0 + flaring_index);
+    if (axis == "x1") {
+        if (spacing_type == "uniform") {
+            N = calc_N_uniform(xmin, xmax, radius, H, cps);
+        }
+        if (spacing_type == "log") {
+            N = calc_N_logarithmic(xmin, xmax, radius, H, cps);
+        }
+    }
+    if (axis == "x2") {
+        xmin *= radius;
+        xmax *= radius;
+        N = calc_N_uniform(xmin, xmax, radius, H, cps);
+    }
+    if (axis == "x3") {
+        if (grid_type=="spherical") {
+            xmin *= radius;
+            xmax *= radius;
+        }
+        N = calc_N_uniform(xmin, xmax, radius, H, cps);
+    }
+    set_element_value(axis+"N", N);
+    calc_cps(axis);
+}
+
+function calc_N_uniform(xmin, xmax, r, H, cps) {
+    var N = cps * (xmax - xmin) / H;
+    return parseInt(Math.round(N));
+}
+
+function calc_N_logarithmic(xmin, xmax, r, H, cps) {
+    var N = Math.log(xmax / xmin) / Math.log(1 + H / (cps * r));
+    return parseInt(Math.round(N));
+}
+
+function is_not_set(val) {
+    return !val && val != 0;
 }
 
 function get_number_from_input(id) {
@@ -207,17 +261,17 @@ function register_events(event_name, func, id_list) {
 }
 
 function get_axis_name(axis) {
-    if (axis=="x1") {
+    if (axis == "x1") {
         return "r";
     }
-    if (axis=="x2") {
+    if (axis == "x2") {
         return "phi";
     }
-    if (axis=="x3") {
-        if (grid_type=="spherical") {
+    if (axis == "x3") {
+        if (grid_type == "spherical") {
             return "theta";
         }
-        if (grid_type=="cylindrical") {
+        if (grid_type == "cylindrical") {
             return "z";
         }
     }
@@ -321,30 +375,30 @@ function update_plot() {
     var flaring_index = parseFloat(get_number_from_input("flaring-index"));
     if (!flaring_index) { flaring_index = 0.0; }
     if (!aspect_ratio) {
-            return;
+        return;
     }
     var active_axis = []
-    for (var i=1; i<4; i++) {
-        if (calc_dx(1, "x"+i)) { 
-            active_axis.push(i); 
+    for (var i = 1; i < 4; i++) {
+        if (calc_dx(1, "x" + i)) {
+            active_axis.push(i);
         }
     }
     var N_axis = active_axis.length;
 
     var N = get_number_from_input("x1N");
-    if (N>200) {N=200}
+    if (N > 200) { N = 200 }
     var x1min = get_number_from_input("x1min");
     var x1max = get_number_from_input("x1max");
-    var vals = new Array(N_axis*N);
+    var vals = new Array(N_axis * N);
     for (var i = 0; i < N; i++) {
         var radius = x1min + (x1max - x1min) / N * i;
         var H = aspect_ratio * Math.pow(radius, 1.0 + flaring_index);
-        for (var k=0; k<N_axis; k++) {
+        for (var k = 0; k < N_axis; k++) {
             var axis = "x" + active_axis[k];
             var axis_name = get_axis_name(axis);
             var dx = calc_dx(radius, axis);
             var cps = H / dx;
-            vals[N_axis*i+k] = { r: radius, cps: cps, axis: axis_name};
+            vals[N_axis * i + k] = { r: radius, cps: cps, axis: axis_name };
         }
     }
     var vlSpec = {
@@ -357,7 +411,8 @@ function update_plot() {
             x: { field: 'r', type: 'quantitative' },
             y: { field: 'cps', type: 'quantitative' },
             color: {
-                field: "axis", "type": "nominal"}
+                field: "axis", "type": "nominal"
+            }
         }
     };
 
