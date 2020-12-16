@@ -192,6 +192,22 @@ function register_events(event_name, func, id_list) {
     }
 }
 
+function get_axis_name(axis) {
+    if (axis=="x1") {
+        return "r";
+    }
+    if (axis=="x2") {
+        return "phi";
+    }
+    if (axis=="x3") {
+        if (grid_type=="spherical") {
+            return "theta";
+        }
+        if (grid_type=="cylindrical") {
+            return "z";
+        }
+    }
+}
 
 
 function set_labels_spherical() {
@@ -301,22 +317,20 @@ function update_plot() {
     }
     var N_axis = active_axis.length;
 
-    var domain_extent = get_number_from_input(axis + "extent");
-    var number_of_cells = get_number_from_input(axis + "N");
-
     var N = get_number_from_input("x1N");
     if (N>200) {N=200}
     var x1min = get_number_from_input("x1min");
     var x1max = get_number_from_input("x1max");
-    var vals = new Array(2*N);
+    var vals = new Array(N_axis*N);
     for (var i = 0; i < N; i++) {
         var radius = x1min + (x1max - x1min) / N * i;
         var H = aspect_ratio * Math.pow(radius, 1.0 + flaring_index);
         for (var k=0; k<N_axis; k++) {
-            var axis = "x" + (k+1);
+            var axis = "x" + active_axis[k];
+            var axis_name = get_axis_name(axis);
             var dx = calc_dx(radius, axis);
             var cps = H / dx;
-            vals[N_axis*i+k] = { r: radius, cps: cps, axis: axis};
+            vals[N_axis*i+k] = { r: radius, cps: cps, axis: axis_name};
         }
     }
     var vlSpec = {
