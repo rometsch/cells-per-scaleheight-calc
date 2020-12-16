@@ -166,7 +166,7 @@ function calc_dr(radius) {
 function calc_domain_extent(axis) {
     var xmin = get_number_from_input(axis + "min");
     var xmax = get_number_from_input(axis + "max");
-    if (!xmin || !xmax || xmin == xmax) {
+    if ((!xmin && xmin != 0) || (!xmax && xmax !=0 ) || xmin == xmax) {
         return;
     }
     var extent = Math.abs(xmax - xmin);
