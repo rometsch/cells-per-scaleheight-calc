@@ -34,6 +34,11 @@ function init() {
 
     update_selection();
 
+    register_events("change", function (e) { update_plot() },
+        ["x1N", "x1extent", "x1min", "x1max", "x2N", "x2extent", "x2min", "x2max", "x3N", "x3extent", "x3min", "x3max",
+            "x1cps", "x2cps", "x3cps", "aspect-ratio", "flaring-index"]
+    )
+
     register_events("click", function (e) { grid_type = "spherical"; update_selection(); }, ["button-spherical-grid"]);
     register_events("click", function (e) { grid_type = "cylindrical"; update_selection(); }, ["button-cylindrical-grid"]);
 
@@ -72,14 +77,14 @@ function hide_inactive_buttons() {
 }
 
 function sort_minmax(axis) {
-    var xmin = get_number_from_input(axis+"min");
-    var xmax = get_number_from_input(axis+"max");
+    var xmin = get_number_from_input(axis + "min");
+    var xmax = get_number_from_input(axis + "max");
     if (is_not_set(xmin) || is_not_set(xmax)) {
         return;
     }
     if (xmin > xmax) {
-        set_element_value(axis+"min", xmax);
-        set_element_value(axis+"max", xmin);
+        set_element_value(axis + "min", xmax);
+        set_element_value(axis + "max", xmin);
     }
 }
 
@@ -217,13 +222,13 @@ function calc_number_of_cells(axis) {
         N = calc_N_uniform(xmin, xmax, radius, H, cps);
     }
     if (axis == "x3") {
-        if (grid_type=="spherical") {
+        if (grid_type == "spherical") {
             xmin *= radius;
             xmax *= radius;
         }
         N = calc_N_uniform(xmin, xmax, radius, H, cps);
     }
-    set_element_value(axis+"N", N);
+    set_element_value(axis + "N", N);
     calc_cps(axis);
 }
 
@@ -386,6 +391,7 @@ function update_plot() {
     var N_axis = active_axis.length;
 
     var N = get_number_from_input("x1N");
+    if (is_not_set(N)) { return; }
     if (N > 200) { N = 200 }
     var x1min = get_number_from_input("x1min");
     var x1max = get_number_from_input("x1max");
