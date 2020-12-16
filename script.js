@@ -21,6 +21,9 @@ function init() {
     register_events("input", function (e) { calc_cps(this.id.substring(0, 2)) },
         ["x1N", "x1extent", "x1min", "x1max", "x2N", "x2extent", "x2min", "x2max", "x3N", "x3extent", "x3min", "x3max"]
     )
+    register_events("input", function (e) { sort_minmax(this.id.substring(0, 2)) },
+        ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
+    )
     register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
     )
 
@@ -65,6 +68,17 @@ function hide_inactive_buttons() {
     }
 }
 
+function sort_minmax(axis) {
+    var xmin = get_number_from_input(axis+"min");
+    var xmax = get_number_from_input(axis+"max");
+    if (is_not_set(xmin) || is_not_set(xmax)) {
+        return;
+    }
+    if (xmin > xmax) {
+        set_element_value(axis+"min", xmax);
+        set_element_value(axis+"max", xmin);
+    }
+}
 
 function calc_cps_all() {
     calc_cps("x1");
