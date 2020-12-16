@@ -4,9 +4,14 @@
     <html lang="en">
     <meta charset="UTF-8">
     <title>cps calc</title>
-    <link rel="shortcut icon" type="image/svg" href="disk_sketch.svg"/>
+    <link rel="shortcut icon" type="image/svg" href="disk_sketch.svg" />
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="">
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
     <style>
         .button {
             border: none;
@@ -35,6 +40,7 @@
             /* Blue */
             background-color: #008CBA;
         }
+
         .button2.hidden {
             /* Blue */
             background-color: #008bba83;
@@ -81,7 +87,7 @@
 
 <body>
 
-    <h1><img src="disk_sketch.svg" style="width: 1em; height: 1em;"/> The Cells-Per-Scaleheight CALCulator</h1>
+    <h1><img src="disk_sketch.svg" style="width: 1em; height: 1em;" /> The Cells-Per-Scaleheight CALCulator</h1>
 
     <button class="button button1" id="button-log-spacing">Logarithmic spacing</button>
     <button class="button button2 hidden" id="button-uniform-spacing">Uniform spacing</button>
@@ -182,6 +188,8 @@
             <td><input type="ratio" id="x3cps" name="x3cps"></td>
         </tr>
     </table>
+
+    <div id="vis"></div>
 
     <button class="button button3" id="button-share-link">Click to copy url with values!</button>
 

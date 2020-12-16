@@ -13,6 +13,8 @@ init();
 
 
 function init() {
+    apply_parameter_values();
+
     register_events("input", function (e) { calc_domain_extent(this.id.substring(0, 2)) },
         ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
     )
@@ -22,7 +24,6 @@ function init() {
     register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
     )
 
-    apply_parameter_values();
     register_events("click", copy_share_link, ["button-share-link"])
 
     update_selection();
@@ -32,7 +33,6 @@ function init() {
 
     register_events("click", function (e) { spacing_type = "log"; update_selection(); }, ["button-log-spacing"]);
     register_events("click", function (e) { spacing_type = "uniform"; update_selection(); }, ["button-uniform-spacing"]);
-
 }
 
 function update_selection() {
@@ -73,6 +73,7 @@ function calc_cps_all() {
 }
 
 function calc_cps(axis) {
+    calc_domain_extent(axis);
     var domain_extent = get_number_from_input(axis + "extent");
     var number_of_cells = get_number_from_input(axis + "N");
     var aspect_ratio = get_number_from_input("aspect-ratio");
@@ -87,6 +88,7 @@ function calc_cps(axis) {
     var dx = calc_dx(radius, axis);
     var cps = H / dx;
     set_element_value(axis + "cps", cps);
+    update_plot();
 }
 
 function calc_dx(radius, axis) {
@@ -173,7 +175,7 @@ function calc_domain_extent(axis) {
 
 function get_number_from_input(id) {
     var element = document.getElementById(id);
-    var value = element.value;
+    var value = parseFloat(element.value);
     return value;
 }
 
@@ -281,3 +283,56 @@ function copyToClip(str) {
     document.execCommand("copy");
     document.removeEventListener("copy", listener);
 };
+
+function update_plot() {
+    // Assign the specification to a local variable vlSpec.
+    var axis = "x1";
+    var aspect_ratio = get_number_from_input("aspect-ratio");
+    var flaring_index = parseFloat(get_number_from_input("flaring-index"));
+    if (!flaring_index) { flaring_index = 0.0; }
+    if (!aspect_ratio) {
+            return;
+    }
+    var active_axis = []
+    for (var i=1; i<4; i++) {
+        if (calc_dx(1, "x"+i)) { 
+            active_axis.push(i); 
+        }
+    }
+    var N_axis = active_axis.length;
+
+    var domain_extent = get_number_from_input(axis + "extent");
+    var number_of_cells = get_number_from_input(axis + "N");
+
+    var N = get_number_from_input("x1N");
+    if (N>200) {N=200}
+    var x1min = get_number_from_input("x1min");
+    var x1max = get_number_from_input("x1max");
+    var vals = new Array(2*N);
+    for (var i = 0; i < N; i++) {
+        var radius = x1min + (x1max - x1min) / N * i;
+        var H = aspect_ratio * Math.pow(radius, 1.0 + flaring_index);
+        for (var k=0; k<N_axis; k++) {
+            var axis = "x" + (k+1);
+            var dx = calc_dx(radius, axis);
+            var cps = H / dx;
+            vals[N_axis*i+k] = { r: radius, cps: cps, axis: axis};
+        }
+    }
+    var vlSpec = {
+        $schema: 'https://vega.github.io/schema/vega-lite/v4.json',
+        data: {
+            values: vals
+        },
+        mark: 'line',
+        encoding: {
+            x: { field: 'r', type: 'quantitative' },
+            y: { field: 'cps', type: 'quantitative' },
+            color: {
+                field: "axis", "type": "nominal"}
+        }
+    };
+
+    // Embed the visualization in the container with id `vis`
+    vegaEmbed('#vis', vlSpec);
+}
