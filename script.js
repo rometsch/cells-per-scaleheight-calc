@@ -11,7 +11,6 @@ var parameter_accessible = [
 
 init();
 
-
 function init() {
     apply_parameter_values();
 
@@ -25,6 +24,9 @@ function init() {
         ["x1min", "x1max", "x2min", "x2max", "x3min", "x3max"]
     )
     register_events("input", calc_cps_all, ["aspect-ratio", "flaring-index", "radius"]
+    )
+    register_events("input", function (e) { calc_number_of_cells_delayed(this.id.substring(0, 2)) },
+        ["x1cps", "x2cps", "x3cps"]
     )
     register_events("change", function (e) { calc_number_of_cells(this.id.substring(0, 2)) },
         ["x1cps", "x2cps", "x3cps"]
@@ -193,6 +195,15 @@ function calc_domain_extent(axis) {
     }
     var extent = Math.abs(xmax - xmin);
     set_element_value(axis + "extent", extent);
+}
+
+var delayed_update_calc_number;
+
+function calc_number_of_cells_delayed(axis) {
+    if (delayed_update_calc_number) {
+        clearTimeout(delayed_update_calc_number);
+    }
+    delayed_update_calc_number = setTimeout(function () {calc_number_of_cells(axis);}, 500);
 }
 
 function calc_number_of_cells(axis) {
@@ -373,7 +384,16 @@ function copyToClip(str) {
     document.removeEventListener("copy", listener);
 };
 
-function update_plot() {
+var delay_update_plot;
+
+function update_plot(axis) {
+    if (delay_update_plot) {
+        clearTimeout(delay_update_plot);
+    }
+    delay_update_plot = setTimeout(function () {update_plot_run();}, 10);
+}
+
+function update_plot_run() {
     // Assign the specification to a local variable vlSpec.
     var axis = "x1";
     var aspect_ratio = get_number_from_input("aspect-ratio");
