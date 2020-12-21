@@ -6,7 +6,8 @@ var parameter_accessible = [
     "x1N", "x1min", "x1max", "x1extent",
     "x2N", "x2min", "x2max", "x2extent",
     "x3N", "x3min", "x3max", "x3extent",
-    "aspect-ratio", "flaring-index", "radius"
+    "aspect-ratio", "flaring-index", "radius",
+    "name"
 ]
 
 init();
@@ -356,6 +357,10 @@ function generate_share_link() {
     var N_params = parameter_accessible.length;
     var param_str = "?grid-type=" + grid_type;
     param_str += "&spacing-type=" + spacing_type;
+    var name = get_elem("name").value;
+    if (name) {
+        param_str += "&name=" + name;
+    }
     for (i = 0; i < N_params; i++) {
         var id = parameter_accessible[i];
         var val = get_number_from_input(id);
