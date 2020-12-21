@@ -359,7 +359,7 @@ function generate_share_link() {
     param_str += "&spacing-type=" + spacing_type;
     var name = get_elem("name").value;
     if (name) {
-        param_str += "&name=" + name;
+        param_str += "&name=" + encodeURIComponent(name);
     }
     for (i = 0; i < N_params; i++) {
         var id = parameter_accessible[i];
